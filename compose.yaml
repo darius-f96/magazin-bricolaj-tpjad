@@ -1,0 +1,65 @@
+services:
+  postgres:
+    image: postgres:17.2
+    container_name: postgres-container
+    restart: always
+    environment:
+      POSTGRES_USER: posadmin
+      POSTGRES_PASSWORD: pos123
+      POSTGRES_DB: bricolage
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - bricolage-network
+    healthcheck:
+        test: [ "CMD", "pg_isready", "-U", "posadmin" ]
+        interval: 10s
+        timeout: 5s
+        retries: 5
+
+  db_migration:
+    build:
+      context: ./src/main/resources/db/liquibase
+    image: liquibase/liquibase
+    container_name: db-migration
+    restart: "no"
+    environment:
+      LIQUIBASE_URL: jdbc:postgresql://host.docker.internal:5432/bricolage
+      LIQUIBASE_USER: posadmin
+      LIQUIBASE_PASSWORD: pos123
+      LIQUIBASE_CHANGELOG: /liquibase/changelog/db.changelog-master.xml
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - bricolage-network
+
+  spring-app:
+    build: .
+    container_name: spring-app-container
+    restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy
+      db_migration:
+        condition: service_completed_successfully
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_POSTGRES_URL: jdbc:postgresql://postgres-container:5432/bricolage
+      SPRING_DATASOURCE_POSTGRES_USERNAME: posadmin
+      SPRING_DATASOURCE_POSTGRES_PASSWORD: pos123
+      SPRING_LIQUIBASE_URL: jdbc:postgresql://host.docker.internal:5432/bricolage
+      SPRING_LIQUIBASE_USER: posadmin
+      SPRING_LIQUIBASE_PASSWORD: pos123
+    networks:
+      - bricolage-network
+
+volumes:
+  postgres_data:
+
+networks:
+    bricolage-network:
+        driver: bridge

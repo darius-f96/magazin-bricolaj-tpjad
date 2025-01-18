@@ -1,8 +1,5 @@
 services:
   postgres:
-    build:
-      context: .
-      dockerfile: Dockerfile.postgres
     image: postgres:17.2
     container_name: postgres-container
     restart: always
@@ -60,6 +57,7 @@ services:
       SPRING_DATASOURCE_POSTGRES_URL: jdbc:postgresql://postgres-container:5432/bricolage
       SPRING_DATASOURCE_POSTGRES_USERNAME: bricolage
       SPRING_DATASOURCE_POSTGRES_PASSWORD: pos123
+      SPRING_AUTH_SECRETKEY: "6d7997a8569da8a55c9431618e56d0b8db7414ebd7e746d3f5484625fc07009e21a17d45c648caff3fe1eef9b8c3e15e4020bea2ae82e4828324c6c16896b955ef2d8dfb518da4606e49292390f864cfec56a4b121fb5bba86266dfaf69401bbb97a2609472de54b9a5d0b82bab87805ea54fbffff112e5f4c29ca6b8be232d667f60ae53bc1716b0b6f20e15b9121642c71e10b02f451b2cae69609805bd9035f51803abfaa4a77f38151d8865cd0951a7cff93cd35e25193418360b410aba85a8dc95a65ed6e3f6375989e7ec2db86b10442bd04fcfcb9a896651ab8243cc67f288955ddc3c3177281e9913a4f6cf1f91fab98e5439b96c3c199607188f78776bc581e9e59c45c9f99ed17d6c2b44685287e68656585826caf0fe9c9fbad823b86dd9bfcfdc2d384d431453591e30aca38e09701af393ca12d8aa34a0fcbab8f8a94590d79167a79f547b2494bbb4227be6e3b42f261aa6e38bab0ccff79e736f2f318fbc45c9213ec55e02395405e8a6143942be7cd3ece1bed6baf30d75a61bd9a43d692747da0f51869136a55a74c5ec20541d49c72b30b1d8ebeb74f5b660dcb5f1de43d5db6f7909d29a327db7ab5ea0af233fdc1111e7cabf38899541e4f1afbdd913d73a227ec3b5e0fa5f4fee73ff9ef2d7fa29bfba81edee42a5cb46887df6d4ed11e5d920d8d58121d9a3ae8b81c8cfe35ff7fff52077ced485f"
     networks:
       - bricolage-network
 

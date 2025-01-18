@@ -2,9 +2,13 @@ package bricolage.service;
 
 
 import bricolage.entity.User;
+import bricolage.enums.UserRoles;
 import bricolage.repository.UserRepository;
 import bricolage.service.interfaces.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,6 +48,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+        User user = userRepository.findByUsername(username);
+        if (user == null) throw new UsernameNotFoundException("User not found with username: " + username);
+
+        return new org.springframework.security.core.userdetails.User(
+                user.getUsername(),
+                user.getPassword(),
+                AuthorityUtils.createAuthorityList(UserRoles.ROLE_ADMIN.name())
+        );
     }
 }
 

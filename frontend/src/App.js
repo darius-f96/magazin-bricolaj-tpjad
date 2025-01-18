@@ -17,14 +17,15 @@ import CreateProduct from "./components/products/CreateProduct";
 import OrderItemList from "./components/orderItems/OrderItemList";
 import CreateOrderItem from "./components/orderItems/CreateOrderItem";
 import EditOrderItem from "./components/orderItems/EditOrderItem";
-
+import AuthPage from "./pages/AuthPage";
 
 function App() {
     return (
         <Router>
             <Navbar/>
             <Routes>
-                <Route path="/" element={<HomePage/>}/>
+                <Route path="/" element={<AuthPage />} />
+                <Route path="/dashboard" element={<HomePage/>}/>
                 <Route path="/products" element={<ProductsPage />} />
                 <Route path="/products/:productId" element={<ProductDetails />} />
                 <Route path="/create-product" element={<CreateProduct />} />

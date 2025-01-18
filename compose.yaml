@@ -1,10 +1,13 @@
 services:
   postgres:
+    build:
+      context: .
+      dockerfile: Dockerfile.postgres
     image: postgres:17.2
     container_name: postgres-container
     restart: always
     environment:
-      POSTGRES_USER: posadmin
+      POSTGRES_USER: bricolage
       POSTGRES_PASSWORD: pos123
       POSTGRES_DB: bricolage
     ports:
@@ -14,7 +17,7 @@ services:
     networks:
       - bricolage-network
     healthcheck:
-        test: [ "CMD", "pg_isready", "-U", "posadmin" ]
+        test: [ "CMD", "pg_isready", "-U", "bricolage" ]
         interval: 10s
         timeout: 5s
         retries: 5
@@ -28,7 +31,7 @@ services:
     environment:
       - LIQUIBASE_COMMAND=update
       - LIQUIBASE_URL=jdbc:postgresql://postgres-container:5432/bricolage
-      - LIQUIBASE_USERNAME=posadmin
+      - LIQUIBASE_USERNAME=bricolage
       - LIQUIBASE_PASSWORD=pos123
     volumes:
         - ./src/main/resources/db:/liquibase/db
@@ -36,7 +39,7 @@ services:
     command:
         - "--changeLogFile=db/db.changelog-master.xml"
         - "--url=jdbc:postgresql://postgres-container:5432/bricolage"
-        - "--username=posadmin"
+        - "--username=bricolage"
         - "--password=pos123"
         - "update"
     networks:
@@ -55,11 +58,8 @@ services:
       - "8080:8080"
     environment:
       SPRING_DATASOURCE_POSTGRES_URL: jdbc:postgresql://postgres-container:5432/bricolage
-      SPRING_DATASOURCE_POSTGRES_USERNAME: posadmin
+      SPRING_DATASOURCE_POSTGRES_USERNAME: bricolage
       SPRING_DATASOURCE_POSTGRES_PASSWORD: pos123
-      SPRING_LIQUIBASE_URL: jdbc:postgresql://host.docker.internal:5432/bricolage
-      SPRING_LIQUIBASE_USER: posadmin
-      SPRING_LIQUIBASE_PASSWORD: pos123
     networks:
       - bricolage-network
 

@@ -3,18 +3,16 @@ package bricolage.service;
 import bricolage.entity.Product;
 import bricolage.repository.ProductRepository;
 import bricolage.service.interfaces.ProductService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
-
-    public ProductServiceImpl(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
 
     @Override
     public Product createProduct(Product product) {

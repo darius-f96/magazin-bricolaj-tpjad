@@ -4,18 +4,16 @@ package bricolage.service;
 import bricolage.entity.User;
 import bricolage.repository.UserRepository;
 import bricolage.service.interfaces.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-
-    public UserServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     @Override
     public User createUser(User user) {

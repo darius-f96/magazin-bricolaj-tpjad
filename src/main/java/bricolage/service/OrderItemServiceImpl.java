@@ -3,18 +3,16 @@ package bricolage.service;
 import bricolage.entity.OrderItem;
 import bricolage.repository.OrderItemRepository;
 import bricolage.service.interfaces.OrderItemService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class OrderItemServiceImpl implements OrderItemService {
 
     private final OrderItemRepository orderItemRepository;
-
-    public OrderItemServiceImpl(OrderItemRepository orderItemRepository) {
-        this.orderItemRepository = orderItemRepository;
-    }
 
     @Override
     public OrderItem createOrderItem(OrderItem orderItem) {

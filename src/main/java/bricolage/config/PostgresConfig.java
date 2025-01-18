@@ -22,7 +22,7 @@ import java.util.Properties;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-        basePackages = "tpjad.magazin_bricolaj.repository",
+        basePackages = "bricolage.repository",
         entityManagerFactoryRef = "postgresEntityManagerFactory",
         transactionManagerRef = "postgresTransactionManager"
 )
@@ -54,7 +54,7 @@ public class PostgresConfig {
     public LocalContainerEntityManagerFactoryBean postgresEntityManagerFactory(@Qualifier("postgresDataSource")DataSource postgresDataSource) {
         LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
         factoryBean.setDataSource(postgresDataSource);
-        factoryBean.setPackagesToScan("tpjad2.postgres.models");
+        factoryBean.setPackagesToScan("bricolage.entity");
         factoryBean.setPersistenceUnitName("postgres");
 
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();

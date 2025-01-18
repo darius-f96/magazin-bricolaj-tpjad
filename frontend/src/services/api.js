@@ -10,6 +10,24 @@ export const getProductById = async (id) => {
     return response.json();
 };
 
+export const createProduct = async (product) => {
+    const response = await fetch(`${API_URL}/products`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(product),
+    });
+    return response.json();
+};
+
+export const updateProduct = async (id, product) => {
+    const response = await fetch(`${API_URL}/products/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(product),
+    });
+    return response.json();
+};
+
 export const getOrders = async () => {
     const response = await fetch(`${API_URL}/orders`);
     return response.json();
@@ -23,8 +41,36 @@ export const getOrderById = async (id) => {
 export const createOrder = async (order) => {
     const response = await fetch(`${API_URL}/orders`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(order),
+    });
+    return response.json();
+};
+
+export const getUsers = async () => {
+    const response = await fetch(`${API_URL}/users`);
+    return response.json();
+};
+
+export const getUserById = async (id) => {
+    const response = await fetch(`${API_URL}/users/${id}`);
+    return response.json();
+};
+
+export const createUser = async (user) => {
+    const response = await fetch(`${API_URL}/users`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(user),
+    });
+    return response.json();
+};
+
+export const updateUser = async (id, user) => {
+    const response = await fetch(`${API_URL}/users/${id}`, {
+        method: 'PUT',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(user),
     });
     return response.json();
 };

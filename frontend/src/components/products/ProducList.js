@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { getProducts } from '../services/api';
+import { Link } from 'react-router-dom';
+import { getProducts } from '../../services/api';
 
 const ProductList = () => {
     const [products, setProducts] = useState([]);
@@ -14,10 +15,11 @@ const ProductList = () => {
             <ul>
                 {products.map(product => (
                     <li key={product.id}>
-                        <h2>{product.name}</h2>
-                        <p>{product.description}</p>
-                        <p>Price: ${product.price}</p>
+                        <h3>{product.name}</h3>
+                        <p>Category: {product.category}</p>
+                        <p>Price: ${product.price.toFixed(2)}</p>
                         <p>Stock: {product.stock}</p>
+                        <Link to={`/products/${product.id}`}>View Details</Link>
                     </li>
                 ))}
             </ul>

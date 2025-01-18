@@ -31,10 +31,10 @@ services:
       - LIQUIBASE_USERNAME=posadmin
       - LIQUIBASE_PASSWORD=pos123
     volumes:
-        - ./src/main/resources/db/changelog:/liquibase/changelog
+        - ./src/main/resources/db:/liquibase/db
     entrypoint: [ "liquibase" ]
     command:
-        - "--changeLogFile=changelog/db.changelog-master.xml"
+        - "--changeLogFile=db/db.changelog-master.xml"
         - "--url=jdbc:postgresql://postgres-container:5432/bricolage"
         - "--username=posadmin"
         - "--password=pos123"

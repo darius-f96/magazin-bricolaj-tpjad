@@ -1,5 +1,6 @@
 package bricolage.entity;
 
+import bricolage.enums.UserRoles;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.util.List;
@@ -17,13 +18,17 @@ public class User {
     private String name;
 
     @Column(nullable = false, unique = true)
+    private String username;
+
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
     private String password;
 
     @Column(nullable = false)
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private UserRoles role;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> orders;

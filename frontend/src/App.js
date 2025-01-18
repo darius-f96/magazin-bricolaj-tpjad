@@ -15,6 +15,9 @@ import CreateUser from "./components/users/CreateUser";
 import ProductList from "./components/products/ProducList";
 import ProductDetails from "./components/products/ProductDetails";
 import CreateProduct from "./components/products/CreateProduct";
+import OrderItemList from "./components/orderItems/OrderItemList";
+import CreateOrderItem from "./components/orderItems/CreateOrderItem";
+import EditOrderItem from "./components/orderItems/EditOrderItem";
 
 
 function App() {
@@ -35,6 +38,9 @@ function App() {
                 <Route path="/users/:userId" element={<UserDetails />} />
                 <Route path="/create-user" element={<CreateUser />} />
                 <Route path="/edit-user/:userId" element={<CreateUser />} />
+                <Route path="/order-items" element={<OrderItemList />} />
+                <Route path="/order-items/create" element={<CreateOrderItem />} />
+                <Route path="/order-items/edit/:id" element={<EditOrderItem />} />
             </Routes>
         </Router>
     );

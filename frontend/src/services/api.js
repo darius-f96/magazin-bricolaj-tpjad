@@ -74,3 +74,40 @@ export const updateUser = async (id, user) => {
     });
     return response.json();
 };
+
+// Creează un articol pentru o comandă
+export const createOrderItem = async (orderItem) => {
+    const response = await fetch(`${API_URL}/order-items`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(orderItem),
+    });
+    return response.json();
+};
+
+// Obține un articol după ID
+export const getOrderItemById = async (id) => {
+    const response = await fetch(`${API_URL}/order-items/${id}`);
+    return response.json();
+};
+
+// Obține toate articolele
+export const getAllOrderItems = async () => {
+    const response = await fetch(`${API_URL}/order-items`);
+    return response.json();
+};
+
+// Actualizează un articol
+export const updateOrderItem = async (id, orderItem) => {
+    const response = await fetch(`${API_URL}/order-items/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(orderItem),
+    });
+    return response.json();
+};
+
+// Șterge un articol
+export const deleteOrderItem = async (id) => {
+    await fetch(`${API_URL}/order-items/${id}`, { method: "DELETE" });
+};

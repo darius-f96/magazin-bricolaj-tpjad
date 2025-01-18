@@ -12,7 +12,6 @@ import CreateOrder from "./components/orders/CreateOrder";
 import UserList from "./components/users/UsersList";
 import UserDetails from "./components/users/UsersDetails";
 import CreateUser from "./components/users/CreateUser";
-import ProductList from "./components/products/ProducList";
 import ProductDetails from "./components/products/ProductDetails";
 import CreateProduct from "./components/products/CreateProduct";
 import OrderItemList from "./components/orderItems/OrderItemList";
@@ -26,7 +25,7 @@ function App() {
             <Navbar/>
             <Routes>
                 <Route path="/" element={<HomePage/>}/>
-                <Route path="/products" element={<ProductList />} />
+                <Route path="/products" element={<ProductsPage />} />
                 <Route path="/products/:productId" element={<ProductDetails />} />
                 <Route path="/create-product" element={<CreateProduct />} />
                 <Route path="/edit-product/:productId" element={<CreateProduct />} />

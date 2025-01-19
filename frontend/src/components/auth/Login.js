@@ -3,6 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { login } from "../../api/authApi";
 import { Box, TextField, Button, Typography } from "@mui/material";
+import Logout from "./Logout";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -44,6 +45,7 @@ const Login = () => {
           Login
         </Button>
       </form>
+      <Logout/>
     </Box>
   );
 };

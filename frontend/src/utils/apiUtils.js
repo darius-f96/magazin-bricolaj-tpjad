@@ -11,7 +11,7 @@ export const SpringBootDataRequest = async (
   navigate
 ) => {
   const token = localStorage.getItem("accessToken");
-
+  console.log(token);
   if (!token) {
     navigate("/login");
     return null;
@@ -25,6 +25,7 @@ export const SpringBootDataRequest = async (
       headers: { 'Content-Type': 'application/json',
         "Authorization" : `Bearer ${token}`}
     });
+    console.log(response.data);
     return response.data;
   } catch (error) {
     if (error.response && error.response.status === 401) {

@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { SpringBootDataRequest } from "../../utils/apiUtils";
 import {
   Box,
   Typography,
-  Grid,
   Card,
   CardContent,
   CardActions,
@@ -16,6 +15,7 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  Grid,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useNavigate } from "react-router-dom";
@@ -32,35 +32,35 @@ const AdminPage = () => {
   });
   const navigate = useNavigate();
 
+  const fetchProducts = useCallback(async () => {
+    const data = await SpringBootDataRequest("/products", "GET", null, navigate);
+    setProducts(data || []);
+  }, [navigate]);
+
+  const fetchOrders = useCallback(async () => {
+    const data = await SpringBootDataRequest("/orders", "GET", null, navigate);
+    setOrders(data || []);
+  }, [navigate]);
+
   useEffect(() => {
     fetchProducts();
     fetchOrders();
-  }, []);
-
-  const fetchProducts = async () => {
-    const data = await SpringBootDataRequest("/api/products", "GET", navigate);
-    setProducts(data || []);
-  };
-
-  const fetchOrders = async () => {
-    const data = await SpringBootDataRequest("/api/orders", "GET", navigate);
-    setOrders(data || []);
-  };
+  }, [fetchProducts, fetchOrders]);
 
   const handleAddProduct = async () => {
-    await SpringBootDataRequest("/api/products", "POST", newProduct, navigate);
+    await SpringBootDataRequest("/products", "POST", newProduct, navigate);
     fetchProducts();
     setDialogOpen(false);
     setNewProduct({ name: "", description: "", price: 0, category: "" });
   };
 
   const handleDeleteProduct = async (productId) => {
-    await SpringBootDataRequest(`/api/products/${productId}`, "DELETE", navigate);
+    await SpringBootDataRequest(`/products/${productId}`, "DELETE", null, navigate);
     fetchProducts();
   };
 
   const handleDeleteOrder = async (orderId) => {
-    await SpringBootDataRequest(`/api/orders/${orderId}`, "DELETE", navigate);
+    await SpringBootDataRequest(`/orders/${orderId}`, "DELETE", null, navigate);
     fetchOrders();
   };
 
@@ -70,7 +70,6 @@ const AdminPage = () => {
         Admin Dashboard
       </Typography>
       <Grid container spacing={4}>
-        {/* Products Section */}
         <Grid item xs={12} md={6}>
           <Typography variant="h5" mb={2}>
             Products
@@ -101,7 +100,6 @@ const AdminPage = () => {
           </Box>
         </Grid>
 
-        {/* Orders Section */}
         <Grid item xs={12} md={6}>
           <Typography variant="h5" mb={2}>
             Orders
@@ -138,7 +136,6 @@ const AdminPage = () => {
         </Grid>
       </Grid>
 
-      {/* Add Product Dialog */}
       <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
         <DialogTitle>Add New Product</DialogTitle>
         <DialogContent>

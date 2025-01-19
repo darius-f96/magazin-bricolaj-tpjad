@@ -1,24 +1,35 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { SpringBootDataRequest } from "../../utils/apiUtils";
 import { Box, Typography, Grid, Card, CardContent, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-
 const ProductsPage = () => {
   const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const data = await SpringBootDataRequest("/products", "GET", navigate);
-      setProducts(data);
-    };
+  const fetchProducts = useCallback(async () => {
+    setIsLoading(true);
+    setError(null);
 
+    try {
+      const response = await SpringBootDataRequest('/products', 'GET', null, navigate);
+      setProducts(response || []);
+    } catch (error) {
+      console.error('Error fetching products:', error);
+      setError(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [navigate]);
+
+  useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [fetchProducts]);
 
   const addToCart = async (productId) => {
-    await SpringBootDataRequest("/cart/add", "POST", { productId }, navigate);
-    alert("Product added to cart!");
+    await SpringBootDataRequest('/cart/add', 'POST', { productId }, navigate);
+    alert('Product added to cart!');
   };
 
   return (
@@ -26,27 +37,35 @@ const ProductsPage = () => {
       <Typography variant="h4" gutterBottom>
         Products
       </Typography>
-      <Grid container spacing={3}>
-        {products.map((product) => (
-          <Grid item xs={12} sm={6} md={4} key={product.id}>
-            <Card>
-              <CardContent>
-                <Typography variant="h6">{product.name}</Typography>
-                <Typography>${product.price.toFixed(2)}</Typography>
-                <Typography variant="body2">{product.description}</Typography>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={() => addToCart(product.id)}
-                  sx={{ mt: 2 }}
-                >
-                  Add to Cart
-                </Button>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
+      {isLoading ? (
+        <div>Loading products...</div>
+      ) : error ? (
+        <div>Error: {error.message}</div>
+      ) : !isLoading && products !== undefined && products.length === 0 ? (
+        <div>No products found.</div>
+      ) : (
+        <Grid container spacing={3}>
+          {products.map((product) => (
+            <Grid item xs={12} sm={6} md={4} key={product.id}>
+              <Card>
+                <CardContent>
+                  <Typography variant="h6">{product.name}</Typography>
+                  <Typography>${product.price.toFixed(2)}</Typography>
+                  <Typography variant="body2">{product.description}</Typography>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => addToCart(product.id)}
+                    sx={{ mt: 2 }}
+                  >
+                    Add to Cart
+                  </Button>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      )}
     </Box>
   );
 };

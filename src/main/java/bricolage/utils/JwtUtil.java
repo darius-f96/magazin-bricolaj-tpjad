@@ -24,10 +24,11 @@ public class JwtUtil {
 
     private final long REFRESH_TOKEN_EXPIRATION_TIME = 3600000; // 1h in ms
 
-    public String generateAccessToken(String username) {
+    public String generateAccessToken(String username, String role) {
         SecretKey key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
         return Jwts.builder()
                 .subject(username)
+                .claim("role", role)
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_EXPIRATION_TIME))
                 .signWith(key)

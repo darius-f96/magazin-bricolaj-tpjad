@@ -31,11 +31,16 @@ public class AuthController {
         String username = loginRequest.get("username");
         String password = loginRequest.get("password");
 
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(username, password)
+        authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(username, password)
         );
 
-        String accessToken = jwtUtil.generateAccessToken(username);
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            return ResponseEntity.status(401).body("User not found");
+        }
+
+        String accessToken = jwtUtil.generateAccessToken(username, user.getRole().name());
         String refreshToken = jwtUtil.generateRefreshToken(username);
 
         Map<String, String> tokens = new HashMap<>();
@@ -51,7 +56,11 @@ public class AuthController {
 
         String username = jwtUtil.extractUsername(refreshToken);
         if (username != null && jwtUtil.isTokenExpired(refreshToken)) {
-            String newAccessToken = jwtUtil.generateAccessToken(username);
+            User user = userRepository.findByUsername(username);
+            if (user == null) {
+                return ResponseEntity.status(401).body("User not found");
+            }
+            String newAccessToken = jwtUtil.generateAccessToken(username, user.getRole().name());
 
             Map<String, String> response = new HashMap<>();
             response.put("accessToken", newAccessToken);

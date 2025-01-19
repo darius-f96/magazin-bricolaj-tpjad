@@ -18,10 +18,10 @@ public class Order {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "order_date")
     private LocalDateTime orderDate;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "total_price")
     private Double totalPrice;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)

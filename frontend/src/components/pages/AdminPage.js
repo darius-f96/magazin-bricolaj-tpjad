@@ -15,10 +15,11 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
-  Grid,
+  Grid, MenuItem,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useNavigate } from "react-router-dom";
+import Category from "../../enums/Category";
 
 const AdminPage = () => {
   const [products, setProducts] = useState([]);
@@ -28,7 +29,8 @@ const AdminPage = () => {
     name: "",
     description: "",
     price: 0,
-    category: "",
+    category: Category.TOOLS,
+    stock: 0,
   });
   const navigate = useNavigate();
 
@@ -51,7 +53,7 @@ const AdminPage = () => {
     await SpringBootDataRequest("/products", "POST", newProduct, navigate);
     fetchProducts();
     setDialogOpen(false);
-    setNewProduct({ name: "", description: "", price: 0, category: "" });
+    setNewProduct({ name: "", description: "", price: 0, category: Category.TOOLS, stock: 0 });
   };
 
   const handleDeleteProduct = async (productId) => {
@@ -84,6 +86,7 @@ const AdminPage = () => {
                   <Typography variant="h6">{product.name}</Typography>
                   <Typography>{product.description}</Typography>
                   <Typography>${product.price}</Typography>
+                  <Typography>Stock: {product.stock}</Typography>
                   <Typography>Category: {product.category}</Typography>
                 </CardContent>
                 <CardActions>
@@ -161,12 +164,21 @@ const AdminPage = () => {
             onChange={(e) => setNewProduct({ ...newProduct, price: parseFloat(e.target.value) })}
             sx={{ marginBottom: 2 }}
           />
+          <TextField label="Stock" type="number" fullWidth value={newProduct.stock} sx={{ marginBottom: 2 }} />
           <TextField
-            label="Category"
-            fullWidth
-            value={newProduct.category}
-            onChange={(e) => setNewProduct({ ...newProduct, category: e.target.value })}
-          />
+              label="Category"
+              select // Use the select prop for dropdown
+              fullWidth
+              value={newProduct.category}
+              onChange={(e) => setNewProduct({ ...newProduct, category: e.target.value })}
+              sx={{ marginBottom: 2 }}
+          >
+            {Object.values(Category).map((category) => (
+                <MenuItem key={category} value={category}>
+                  {category}
+                </MenuItem>
+            ))}
+          </TextField>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setDialogOpen(false)} color="secondary">

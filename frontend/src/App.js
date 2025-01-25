@@ -11,7 +11,6 @@ import { Navigate } from "react-router-dom";
 const App = () => {
   return (
     <AuthProvider>
-      <Router>
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/admin" element={<AdminPage/>}/>
@@ -20,7 +19,6 @@ const App = () => {
           <Route path="/orders" element={<OrdersPage />} />
           <Route path="*" element={<Navigate to="/login" />} />
         </Routes>
-      </Router>
     </AuthProvider>
   );
 };

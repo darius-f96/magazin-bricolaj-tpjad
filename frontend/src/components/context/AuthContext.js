@@ -1,78 +1,109 @@
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import {jwtDecode} from 'jwt-decode';
+import React, { createContext, useState, useEffect, useCallback, useContext } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-const AuthContext = createContext(null);
+export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [token, setToken] = useState(localStorage.getItem('accessToken'));
-  const [refreshToken, setRefreshToken] = useState(localStorage.getItem('refreshToken'));
-  const [user, setUser] = useState(null);
+  const [accessToken, setAccessToken] = useState(localStorage.getItem('accessToken') || null);
+  const [refreshToken, setRefreshToken] = useState(localStorage.getItem('refreshToken') || null);
+  const [isAuthenticated, setIsAuthenticated] = useState(!!accessToken);
+  const navigate = useNavigate();
+
+  const BASE_URL = "http://your-spring-boot-server/api"; // Replace with your actual backend URL
+  const REFRESH_ENDPOINT = `${BASE_URL}/refresh`;
+  const LOGIN_PAGE = "/login";
+
+  const saveTokens = (newAccessToken, newRefreshToken = null) => {
+    setAccessToken(newAccessToken);
+    localStorage.setItem('accessToken', newAccessToken);
+
+    if (newRefreshToken) {
+      setRefreshToken(newRefreshToken);
+      localStorage.setItem('refreshToken', newRefreshToken);
+    }
+  };
+
+  const clearTokens = () => {
+    setAccessToken(null);
+    setRefreshToken(null);
+    setIsAuthenticated(false);
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+  };
+
+  const isTokenExpiring = (token) => {
+    try {
+      const decodedToken = JSON.parse(atob(token.split(".")[1])); // Decode JWT payload
+      const tokenExpTime = decodedToken.exp; // "Expiration Time" timestamp in the payload
+      const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
+      return tokenExpTime - currentTime <= 60; // Check if token will expire in a minute
+    } catch (error) {
+      console.error("Error decoding token:", error);
+      return true; // If decoding fails, assume token is invalid
+    }
+  };
 
   const refreshAuthToken = useCallback(async () => {
     try {
-      const response = await fetch('/api/auth/refresh', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ refreshToken }),
+      if (!refreshToken) {
+        throw new Error("No refresh token available");
+      }
+
+      const response = await axios.post(REFRESH_ENDPOINT, { refreshToken }, {
+        headers: { "Content-Type": "application/json" },
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to refresh token');
-      }
-
-      const data = await response.json();
-      setToken(data.accessToken); 
+      const { accessToken: newAccessToken, refreshToken: newRefreshToken } = response.data; // Adapt to your API response
+      saveTokens(newAccessToken, newRefreshToken); // Save new tokens
+      setIsAuthenticated(true);
     } catch (error) {
-      console.error('Error refreshing token:', error);
-      logout();
+      console.error("Failed to refresh token:", error);
+      clearTokens(); // Clear tokens if refreshing fails
+      navigate(LOGIN_PAGE); // Redirect to login
     }
-  }, [refreshToken]);
+  }, [refreshToken, navigate]);
+
+  const handleTokenExpiry = useCallback(async () => {
+    if (accessToken && isTokenExpiring(accessToken)) {
+      await refreshAuthToken(); // Refresh token if expiring
+    }
+  }, [accessToken, refreshAuthToken]);
 
   useEffect(() => {
-    const handleToken = async () => {
-      if (token) {
-        try {
-          const decoded = jwtDecode(token);
-          const now = Date.now() / 1000;
-          if (decoded.exp < now) { 
-            await refreshAuthToken(); 
-          } else {
-            setUser({ username: decoded.sub, role: decoded.role });
-          }
-        } catch (error) {
-          console.error('Error decoding token:', error);
-          logout(); // Handle invalid token (e.g., logout)
-        }
-      } else {
-        setUser(null);
-      }
-    };
+    const intervalId = setInterval(handleTokenExpiry, 30 * 1000); // Check every 30 seconds
+    return () => clearInterval(intervalId); // Clear interval on component unmount
+  }, [handleTokenExpiry]);
 
-    handleToken();
-  }, [token, refreshAuthToken]); 
-
-  const login = async ({ accessToken, refreshToken }) => {
-    localStorage.setItem('accessToken', accessToken);
-    localStorage.setItem('refreshToken', refreshToken);
-    setToken(accessToken);
-    setRefreshToken(refreshToken);
+  const login = ({accessToken, refreshToken}) => {
+    saveTokens(accessToken, refreshToken);
+    setIsAuthenticated(true);
   };
 
   const logout = () => {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    setToken(null);
-    setRefreshToken(null);
-    setUser(null); 
+    clearTokens();
+    navigate(LOGIN_PAGE);
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, login, logout }}>
-      {children}
-    </AuthContext.Provider>
+      <AuthContext.Provider
+          value={{
+            accessToken,
+            isAuthenticated,
+            login,
+            logout,
+            refreshAuthToken,
+          }}
+      >
+        {children}
+      </AuthContext.Provider>
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
+};

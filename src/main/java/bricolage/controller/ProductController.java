@@ -1,5 +1,6 @@
 package bricolage.controller;
 
+import bricolage.controller.dto.ProductCreationDto;
 import bricolage.entity.Product;
 import bricolage.service.interfaces.ProductService;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
+    public ResponseEntity<Product> createProduct(@RequestBody ProductCreationDto product) {
         return ResponseEntity.ok(productService.createProduct(product));
     }
 

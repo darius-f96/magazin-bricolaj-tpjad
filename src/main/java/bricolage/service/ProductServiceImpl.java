@@ -1,6 +1,8 @@
 package bricolage.service;
 
+import bricolage.controller.dto.ProductCreationDto;
 import bricolage.entity.Product;
+import bricolage.mappers.ProductMapper;
 import bricolage.repository.ProductRepository;
 import bricolage.service.interfaces.ProductService;
 import lombok.AllArgsConstructor;
@@ -15,7 +17,8 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
 
     @Override
-    public Product createProduct(Product product) {
+    public Product createProduct(ProductCreationDto productRequest) {
+        Product product = ProductMapper.convertToEntity(productRequest);
         return productRepository.save(product);
     }
 

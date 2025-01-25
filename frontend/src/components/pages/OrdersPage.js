@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { SpringBootDataRequest } from "../../utils/apiUtils";
+import { useSpringBootRequest} from "../../utils/apiUtils";
 import { Box, Typography, Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useNavigate } from "react-router-dom";
@@ -9,6 +9,7 @@ const OrdersPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const SpringBootDataRequest = useSpringBootRequest();
 
   const fetchOrders = useCallback(async () => {
     setIsLoading(true);

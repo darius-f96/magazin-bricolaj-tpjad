@@ -7,19 +7,22 @@ import OrdersPage from "./components/pages/OrdersPage";
 import AdminPage from "./components/pages/AdminPage";
 import { AuthProvider } from "./components/context/AuthContext";
 import { Navigate } from "react-router-dom";
+import {ToastContainer} from "react-toastify";
 
 const App = () => {
-  return (
-    <AuthProvider>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/admin" element={<AdminPage/>}/>
-          <Route path="/products" element={<ProductsPage />}/>
-          <Route path="/cart" element={<CartPage />} />
-          <Route path="/orders" element={<OrdersPage />} />
-          <Route path="*" element={<Navigate to="/login" />} />
-        </Routes>
-    </AuthProvider>
+  return (<div>
+        <ToastContainer />,
+        <AuthProvider>
+              <Routes>
+                <Route path="/login" element={<Login />} />
+                <Route path="/admin" element={<AdminPage/>}/>
+                <Route path="/products" element={<ProductsPage />}/>
+                <Route path="/cart" element={<CartPage />} />
+                <Route path="/orders" element={<OrdersPage />} />
+                <Route path="*" element={<Navigate to="/login" />} />
+              </Routes>
+        </AuthProvider>
+      </div>
   );
 };
 

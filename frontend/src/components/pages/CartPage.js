@@ -1,13 +1,14 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { SpringBootDataRequest } from "../../utils/apiUtils";
+import { useSpringBootRequest} from "../../utils/apiUtils";
 import { Box, Typography, Button, List, ListItem, ListItemText } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 const CartPage = () => {
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const SpringBootDataRequest = useSpringBootRequest();
 
   const fetchCart = useCallback(async () => {
     setIsLoading(true);
@@ -27,13 +28,15 @@ const CartPage = () => {
   }, [fetchCart]);
 
   const removeFromCart = async (productId) => {
-    await SpringBootDataRequest(`/cart/remove/${productId}`, "DELETE", null, navigate);
-    setCart(cart.filter((item) => item.product.id !== productId));
+    await SpringBootDataRequest(`/cart/removeItem?productId=${productId}`, "DELETE", null, navigate);
+    const data = await SpringBootDataRequest("/cart", "GET", null, navigate);
+    setCart(data);
   };
 
   const submitOrder = async () => {
-    await SpringBootDataRequest("/orders", "POST", { items: cart }, navigate);
-    setCart([]);
+    await SpringBootDataRequest("/cart/submit", "POST", null, navigate);
+    const data = await SpringBootDataRequest("/cart", "GET", null, navigate);
+    setCart(data);
     alert("Order placed successfully!");
   };
 
@@ -46,18 +49,22 @@ const CartPage = () => {
         <div>Loading cart...</div>
       ) : error ? (
         <div>Error fetching cart: {error.message}</div>
-      ) : cart.length > 0 ? (
+      ) : cart.products.length > 0 ? (
         <List>
-          {cart.map((item) => (
-            <ListItem key={item.product.id}>
+          {cart.products.map((item) => (
+            <ListItem key={item.id}>
               <ListItemText
-                primary={item.product.name}
+                primary={item.name}
                 secondary={`Quantity: ${item.quantity}`}
+              />
+              <ListItemText
+                  primary={item.price}
+                  secondary={`Total price: ${item.price*item.quantity}`}
               />
               <Button
                 variant="contained"
                 color="secondary"
-                onClick={() => removeFromCart(item.product.id)}
+                onClick={() => removeFromCart(item.id)}
               >
                 Remove
               </Button>
@@ -67,7 +74,7 @@ const CartPage = () => {
       ) : (
         <div>Your cart is empty :(.</div>
       )}
-      {cart.length > 0 && (
+      {cart.products?.length > 0 && (
         <Button variant="contained" color="primary" onClick={submitOrder} sx={{ mt: 2 }}>
           Submit Order
         </Button>

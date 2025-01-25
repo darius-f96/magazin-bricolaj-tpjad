@@ -75,7 +75,10 @@ public class AuthController {
         if (userRepository.existsByUsername(user.getUsername())) {
             return ResponseEntity.status(400).body("Username is already taken");
         }
-
+        if (userRepository.existsByEmail(user.getEmail())) {
+            return ResponseEntity.status(400).body(
+                "Email is already in use by another account");
+        }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         userRepository.save(user);

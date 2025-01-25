@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(!!accessToken);
   const navigate = useNavigate();
 
-  const BASE_URL = "http://your-spring-boot-server/api"; // Replace with your actual backend URL
+  const BASE_URL = "http://localhost:8080/api";
   const REFRESH_ENDPOINT = `${BASE_URL}/refresh`;
   const LOGIN_PAGE = "/login";
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { SpringBootDataRequest } from "../../utils/apiUtils";
+import { useSpringBootRequest} from "../../utils/apiUtils";
 import { Box, Typography, Grid, Card, CardContent, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 const ProductsPage = () => {
@@ -7,6 +7,7 @@ const ProductsPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const SpringBootDataRequest = useSpringBootRequest();
 
   const fetchProducts = useCallback(async () => {
     setIsLoading(true);
@@ -28,7 +29,7 @@ const ProductsPage = () => {
   }, [fetchProducts]);
 
   const addToCart = async (productId) => {
-    await SpringBootDataRequest('/cart/add', 'POST', { productId }, navigate);
+    await SpringBootDataRequest(`/cart/addItem?productId=${productId}&quantity=1`, 'POST', null, navigate);
     alert('Product added to cart!');
   };
 

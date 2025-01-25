@@ -8,4 +8,16 @@
             <column name="status" type="varchar(50)"/>
         </addColumn>
     </changeSet>
+    <changeSet id="20250125-1451" author="darius-f96">
+        <preConditions onFail="MARK_RAN">
+            <columnExists tableName="orders" columnName="total_price"/>
+        </preConditions>
+        <dropColumn tableName="orders" columnName="total_price"/>
+    </changeSet>
+    <changeSet id="20250125-1451-2" author="darius-f96">
+        <addColumn tableName="orders">
+            <column name="updated" type="datetime"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

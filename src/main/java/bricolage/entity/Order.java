@@ -3,6 +3,10 @@ package bricolage.entity;
 import bricolage.enums.OrderStatus;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Formula;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -20,9 +24,14 @@ public class Order {
     private User user;
 
     @Column(nullable = false, name = "order_date")
+    @CreationTimestamp
     private LocalDateTime orderDate;
 
-    @Column(nullable = false, name = "total_price")
+    @Column(nullable = false, name = "updated")
+    @UpdateTimestamp
+    private LocalDateTime updated;
+    @Formula("(SELECT SUM(oi.quantity * p.price) FROM order_items oi " +
+            "JOIN products p ON oi.product_id = p.id WHERE oi.order_id = id)")
     private Double totalPrice;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -31,5 +40,9 @@ public class Order {
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private OrderStatus status;
+
+    public double getTotalPrice() {
+        return totalPrice != null ? totalPrice : 0.0;
+    }
 }
 

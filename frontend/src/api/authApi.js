@@ -7,8 +7,8 @@ export const login = (username, password) => {
   return axios.post(`${API_URL}/login`, { username, password });
 };
 
-export const register = (username, password) => {
-  return axios.post(`${API_URL}/register`, { username, password });
+export const register = (newUser) => {
+  return axios.post(`${API_URL}/register`, newUser);
 };
 
 export const logout = () => {

@@ -20,7 +20,7 @@ const Logout = () => {
   };
 
   return (
-    <Box sx={{ maxWidth: 400, mx: "auto", mt: 4 }}>
+    <Box sx={{ maxWidth: 400, mx: "auto", mt: 2 }}>
       <form onSubmit={handleSubmit}>
         <Button type="submit" variant="contained" fullWidth>
           Logout

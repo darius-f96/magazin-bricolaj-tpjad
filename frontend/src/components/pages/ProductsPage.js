@@ -1,11 +1,8 @@
-import React, {useEffect, useState, useCallback, useContext} from "react";
+import React, {useEffect, useState, useCallback} from "react";
 import {useSpringBootRequest} from "../../utils/apiUtils";
-import {Box, Typography, Grid, Card, CardContent, Button, AppBar, Toolbar, IconButton} from "@mui/material";
+import {Box, Typography, Grid, Card, CardContent, Button} from "@mui/material";
 import {useNavigate} from "react-router-dom";
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import ListAltIcon from '@mui/icons-material/ListAlt';
-import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
-import {useAuth} from "../context/AuthContext";
+import Layout from '../Layout';
 
 
 const ProductsPage = () => {
@@ -14,8 +11,6 @@ const ProductsPage = () => {
     const [error, setError] = useState(null);
     const navigate = useNavigate();
     const SpringBootDataRequest = useSpringBootRequest();
-
-    const {user, logout} = useAuth();
 
     const fetchProducts = useCallback(async () => {
         setIsLoading(true);
@@ -42,42 +37,12 @@ const ProductsPage = () => {
     };
 
     return (
-        <>
-            <AppBar position="static">
-                <Toolbar>
-                    <Typography variant="h6" sx={{flexGrow: 1}}>
-                        Bricolaj TPJAD
-                    </Typography>
-                    <IconButton color="inherit" onClick={() => navigate('/cart')}>
-                        <ShoppingCartIcon/>
-                    </IconButton>
-                    <Button
-                        color="inherit"
-                        startIcon={<ListAltIcon/>}
-                        onClick={() => navigate('/orders')}
-                        sx={{mr: 2}}
-                    >Orders</Button>
-                    {user?.role?.includes("ROLE_ADMIN") && (
-                        <Button
-                            color="inherit"
-                            startIcon={<AdminPanelSettingsIcon/>}
-                            onClick={() => navigate('/admin')}
-                            sx={{mr: 2}}
-                        >
-                            Admin
-                        </Button>
-                    )}
-                    {user && (
-                        <Button color="inherit" onClick={logout}>
-                            Logout
-                        </Button>
-                    )}
-                </Toolbar>
-            </AppBar>
+        <Layout>
             <Box sx={{p: 4}}>
                 <Typography variant="h4" gutterBottom>
                     Products
                 </Typography>
+
                 {isLoading ? (
                     <div>Loading products...</div>
                 ) : error ? (
@@ -108,7 +73,7 @@ const ProductsPage = () => {
                     </Grid>
                 )}
             </Box>
-        </>
+        </Layout>
     );
 };
 

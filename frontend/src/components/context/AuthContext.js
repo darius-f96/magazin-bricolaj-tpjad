@@ -28,7 +28,6 @@ export const AuthProvider = ({ children }) => {
 
     try {
       const decodedToken = jwtDecode(newAccessToken);
-      console.log("Decoded Token:", decodedToken);
 
       setUser({
         username: decodedToken.sub, // Extragem username-ul din `sub`

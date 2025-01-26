@@ -15,8 +15,7 @@ const ProductsPage = () => {
     const navigate = useNavigate();
     const SpringBootDataRequest = useSpringBootRequest();
 
-    const { user } = useAuth();
-    console.log("Current user:", user);
+    const {user, logout} = useAuth();
 
     const fetchProducts = useCallback(async () => {
         setIsLoading(true);
@@ -42,8 +41,6 @@ const ProductsPage = () => {
         alert('Product added to cart!');
     };
 
-    console.log("User roles:", user?.role);
-
     return (
         <>
             <AppBar position="static">
@@ -51,6 +48,9 @@ const ProductsPage = () => {
                     <Typography variant="h6" sx={{flexGrow: 1}}>
                         Bricolaj TPJAD
                     </Typography>
+                    <IconButton color="inherit" onClick={() => navigate('/cart')}>
+                        <ShoppingCartIcon/>
+                    </IconButton>
                     <Button
                         color="inherit"
                         startIcon={<ListAltIcon/>}
@@ -67,9 +67,11 @@ const ProductsPage = () => {
                             Admin
                         </Button>
                     )}
-                    <IconButton color="inherit" onClick={() => navigate('/cart')}>
-                        <ShoppingCartIcon/>
-                    </IconButton>
+                    {user && (
+                        <Button color="inherit" onClick={logout}>
+                            Logout
+                        </Button>
+                    )}
                 </Toolbar>
             </AppBar>
             <Box sx={{p: 4}}>

@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect, useCallback, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from "jwt-decode";
 
 export const AuthContext = createContext();
 
@@ -9,6 +10,8 @@ export const AuthProvider = ({ children }) => {
   const [refreshToken, setRefreshToken] = useState(localStorage.getItem('refreshToken') || null);
   const [isAuthenticated, setIsAuthenticated] = useState(!!accessToken);
   const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+
 
   const BASE_URL = "http://localhost:8080/api";
   const REFRESH_ENDPOINT = `${BASE_URL}/refresh`;
@@ -21,6 +24,19 @@ export const AuthProvider = ({ children }) => {
     if (newRefreshToken) {
       setRefreshToken(newRefreshToken);
       localStorage.setItem('refreshToken', newRefreshToken);
+    }
+
+    try {
+      const decodedToken = jwtDecode(newAccessToken);
+      console.log("Decoded Token:", decodedToken);
+
+      setUser({
+        username: decodedToken.sub, // Extragem username-ul din `sub`
+        role: decodedToken.role,   // Extragem rolul din `role`
+      });
+    } catch (error) {
+      console.error("Error decoding token:", error);
+      setUser(null);
     }
   };
 
@@ -90,6 +106,7 @@ export const AuthProvider = ({ children }) => {
           value={{
             accessToken,
             isAuthenticated,
+            user,
             login,
             logout,
             refreshAuthToken,

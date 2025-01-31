@@ -16,7 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/orders")
 @AllArgsConstructor
-@PreAuthorize("hasRole('ROLE_ADMIN')")
+@PreAuthorize("hasRole('ADMIN')")
 public class OrderController {
 
     private final OrderService orderService;

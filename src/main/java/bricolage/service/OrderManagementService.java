@@ -1,18 +1,28 @@
 package bricolage.service;
 
+import bricolage.controller.dto.OrderDTO;
 import bricolage.entity.Order;
 import bricolage.entity.OrderItem;
 import bricolage.entity.Product;
 import bricolage.entity.User;
 import bricolage.enums.OrderStatus;
+import bricolage.mappers.OrderMapper;
+import bricolage.mappers.UtilMapper;
 import bricolage.repository.OrderItemRepository;
 import bricolage.repository.OrderRepository;
 import bricolage.repository.ProductRepository;
 import bricolage.repository.UserRepository;
+import bricolage.specifications.OrderSpecification;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -39,6 +49,15 @@ public class OrderManagementService {
         }
 
         return openOrder;
+    }
+
+    public Page<OrderDTO> getUserOrders(Pageable pageable, Long userId, String productName, String startDate,
+                                        String endDate, String minPrice,
+                                        String maxPrice){
+        return orderRepository.findAll(
+                OrderSpecification.createOrderSpecification(userId,
+                productName, UtilMapper.parseDate(startDate), UtilMapper.parseDate(endDate), UtilMapper.parseBigDecimal(minPrice), UtilMapper.parseBigDecimal(maxPrice)
+        ), pageable).map(OrderMapper::toOrderDTO);
     }
 
     /**

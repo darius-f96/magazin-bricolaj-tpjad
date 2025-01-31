@@ -7,9 +7,15 @@ import bricolage.service.OrderManagementService;
 import bricolage.service.UserServiceImpl;
 import bricolage.service.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/api/cart")
@@ -80,5 +86,21 @@ public class CartController {
             return userService.getUserByUsername(userDetails.getUsername()).getId();
         }
         throw new IllegalStateException("Unable to extract user ID from authentication.");
+    }
+
+    @GetMapping("/userOrders")
+    public Page<OrderDTO> getOrders(
+            Authentication authentication,
+            Pageable pageable,
+            @RequestParam(required = false) String productName,
+            @RequestParam(required = false) String startDate,
+            @RequestParam(required = false) String endDate,
+            @RequestParam(required = false) String minPrice,
+            @RequestParam(required = false) String maxPrice
+
+    ){
+        Long userId = getUserIdFromAuthentication(authentication);
+
+        return orderManagementService.getUserOrders(pageable, userId, productName, startDate, endDate, minPrice, maxPrice);
     }
 }

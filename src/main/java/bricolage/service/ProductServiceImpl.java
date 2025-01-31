@@ -2,10 +2,15 @@ package bricolage.service;
 
 import bricolage.controller.dto.ProductCreationDto;
 import bricolage.entity.Product;
+import bricolage.enums.ProductCategory;
 import bricolage.mappers.ProductMapper;
 import bricolage.repository.ProductRepository;
 import bricolage.service.interfaces.ProductService;
+import bricolage.specifications.ProductSpecification;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -47,6 +52,12 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void deleteProduct(Long id) {
         productRepository.deleteById(id);
+    }
+
+    @Override
+    public Page<Product> searchProducts(String search, Boolean hasStock, List<ProductCategory> productCategoryList, Pageable pageable) {
+        Specification<Product> spec = ProductSpecification.createProductSpecification(search, hasStock, productCategoryList);
+        return productRepository.findAll(spec, pageable);
     }
 }
 

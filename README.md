@@ -217,6 +217,9 @@ The application is containerized and deployed using **Docker**.
 
 ---
 
+## Screenshots from app
+![alt text]([http://url/to/img.png](https://github.com/darius-f96/magazin-bricolaj-tpjad/blob/main/documentation/admin_page.png))
+
 ## Contributing
 
 Contributions are welcome! To contribute:

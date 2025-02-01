@@ -81,9 +81,8 @@ const CartPage = () => {
 
         setIsModalOpen(false);
         await SpringBootDataRequest("/cart/submit", "POST", {deliveryDetailsId: deliveryDetailId}, navigate);
-        const data = await SpringBootDataRequest("/cart", "GET", null, navigate);
-        setCart(data);
         alert("Order placed successfully!");
+        fetchCart();
     };
 
     const handleSubmitOrder = () => {
@@ -105,7 +104,7 @@ const CartPage = () => {
                     <div>Loading cart...</div>
                 ) : error ? (
                     <div>Error fetching cart: {error.message}</div>
-                ) : cart.products.length > 0 ? (
+                ) : cart.products?.length > 0 ? (
                     <List>
                         {cart.products.map((item) => (
                             <ListItem key={item.id}>

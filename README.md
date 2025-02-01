@@ -44,7 +44,7 @@ This is a web application built with **Spring Boot** and **Java 21** for the bac
     - Administrators can modify orders or order items based on user requests.
 
 3. **Search:**
-    - Administrators can search:
+    - All users can search:
         - Orders by product name, price range, or date range.
         - Products by name and description.
 

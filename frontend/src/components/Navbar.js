@@ -34,6 +34,14 @@ const Navbar = () => {
                 >
                     Orders
                 </Button>
+                <Button
+                    color="inherit"
+                    startIcon={<ListAltIcon/>}
+                    onClick={() => navigate('/profile')}
+                    sx={{mr: 2}}
+                >
+                    My Profile
+                </Button>
                 {user?.role?.includes("ROLE_ADMIN") && (
                     <Button
                         color="inherit"

@@ -9,6 +9,7 @@ import {AuthProvider} from "./components/context/AuthContext";
 import {Navigate} from "react-router-dom";
 import {ToastContainer} from "react-toastify";
 import Register from "./components/auth/Register";
+import MyProfilePage from "./components/pages/MyProfilePage";
 
 const App = () => {
     return (<div>
@@ -21,6 +22,7 @@ const App = () => {
                     <Route path="/cart" element={<CartPage/>}/>
                     <Route path="/orders" element={<OrdersPage/>}/>
                     <Route path="/register" element={<Register/>}/>
+                    <Route path="/profile" element={<MyProfilePage/>}/>
                     <Route path="*" element={<Navigate to="/login"/>}/>
                 </Routes>
             </AuthProvider>

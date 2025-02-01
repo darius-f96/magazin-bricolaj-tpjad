@@ -41,6 +41,10 @@ public class Order {
     @Column(name = "status")
     private OrderStatus status;
 
+    @OneToOne
+    @JoinColumn(name = "delivery_details_id")
+    private DeliveryDetails deliveryDetails;
+
     public double getTotalPrice() {
         return totalPrice != null ? totalPrice : 0.0;
     }

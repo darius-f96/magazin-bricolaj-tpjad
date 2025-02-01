@@ -17,4 +17,5 @@ public class OrderDTO {
     private LocalDateTime updated;
     private List<OrderItemDTO> products;
     private double totalPrice;
+    private DeliveryDetailsDTO deliveryDetails;
 }

@@ -13,6 +13,7 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useNavigate } from "react-router-dom";
 import Layout from "../Layout";
+import {formatToIsoWithoutMilliseconds} from "../../utils/dateFormatter";
 
 const OrdersPage = () => {
     const [orders, setOrders] = useState([]);
@@ -38,15 +39,20 @@ const OrdersPage = () => {
         try {
             const queryParams = new URLSearchParams({
                 ...searchParams,
-                startDate: searchParams.startDate || null,
-                endDate: searchParams.endDate || null,
+                startDate: searchParams.startDate? formatToIsoWithoutMilliseconds(searchParams.startDate) : null,
+                endDate: searchParams.endDate? formatToIsoWithoutMilliseconds(searchParams.endDate) : null,
                 minPrice: searchParams.minPrice || null,
                 maxPrice: searchParams.maxPrice || null,
             });
 
-           const data = await SpringBootDataRequest(`/cart/userOrders?${queryParams.toString()}`, "GET", null, navigate);
-            setOrders(data.content); // Assuming Spring Boot API returns Page object with `content`
-            setTotalPages(data.totalPages); // Store total pages
+            const queryString = queryParams.toString()
+                .replace(/%3A/g, ":") // Decode colons
+                .replace(/%2F/g, "/"); // Decode slashes if encoded
+
+
+            const data = await SpringBootDataRequest(`/cart/userOrders?${queryString}`, "GET", null, navigate);
+            setOrders(data.content);
+            setTotalPages(data.totalPages);
         } catch (error) {
             setError(error);
         } finally {

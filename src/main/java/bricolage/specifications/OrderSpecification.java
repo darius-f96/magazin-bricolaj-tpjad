@@ -20,10 +20,12 @@ public class OrderSpecification {
         };
     }
 
-    public static Specification<bricolage.entity.Order> hasDateBetween(LocalDateTime startDate, LocalDateTime endDate) {
-        return (root, query, criteriaBuilder) -> criteriaBuilder.between(root.get("orderDate"), startDate, endDate);
+    public static Specification<bricolage.entity.Order> dateIsAfter(LocalDateTime startDate) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.greaterThanOrEqualTo(root.get("orderDate"), startDate);
     }
-
+    public static Specification<bricolage.entity.Order> dateIsBefore(LocalDateTime endDate) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.lessThanOrEqualTo(root.get("orderDate"), endDate);
+    }
     public static Specification<bricolage.entity.Order> hasPriceInRange(BigDecimal minPrice, BigDecimal maxPrice) {
         return (root, query, criteriaBuilder) -> criteriaBuilder.between(root.get("totalPrice"), minPrice, maxPrice);
     }
@@ -40,7 +42,8 @@ public class OrderSpecification {
                                                                 LocalDateTime endDate, BigDecimal minPrice,
                                                                 BigDecimal maxPrice) {
         return Specification.where(productName != null ? filterByProductName(productName) : null)
-                .and(startDate != null && endDate != null ? hasDateBetween(startDate, endDate) : null)
+                .and(startDate != null ? dateIsAfter(startDate) : null)
+                .and(endDate != null ? dateIsBefore(endDate) : null)
                 .and(minPrice != null && maxPrice != null ? hasPriceInRange(minPrice, maxPrice) : null)
                 .and(hasUserId(userId));
     }

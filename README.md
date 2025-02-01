@@ -44,7 +44,7 @@ This is a web application built with **Spring Boot** and **Java 21** for the bac
     - Administrators can modify orders or order items based on user requests.
 
 3. **Search:**
-    - Administrators can search:
+    - All users can search:
         - Orders by product name, price range, or date range.
         - Products by name and description.
 
@@ -100,7 +100,8 @@ The database schema is managed with **Liquibase**, ensuring version-controlled u
 2. Products
 3. Orders
 4. Delivery Details
-5. Token Blacklist
+
+![alt text](https://github.com/darius-f96/magazin-bricolaj-tpjad/blob/main/documentation/db-diagram.png)
 
 ### Key Characteristics:
 - Orders are tied to users, delivery details, and product availability.
@@ -216,6 +217,13 @@ The application is containerized and deployed using **Docker**.
     - Invalidates tokens using the Token Blacklist Service.
 
 ---
+
+## Screenshots from app
+![alt text](https://github.com/darius-f96/magazin-bricolaj-tpjad/blob/main/documentation/admin_page.png)
+![alt text](https://github.com/darius-f96/magazin-bricolaj-tpjad/blob/main/documentation/order_page.png)
+![alt text](https://github.com/darius-f96/magazin-bricolaj-tpjad/blob/main/documentation/product_page.png)
+![alt text](https://github.com/darius-f96/magazin-bricolaj-tpjad/blob/main/documentation/submit_order.png)
+![alt text](https://github.com/darius-f96/magazin-bricolaj-tpjad/blob/main/documentation/user_profile_page.png)
 
 ## Contributing
 

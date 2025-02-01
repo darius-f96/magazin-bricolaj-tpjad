@@ -1,9 +1,6 @@
 package bricolage.mappers;
 
-import bricolage.controller.dto.FullOrderDTO;
-import bricolage.controller.dto.FullOrderItemDTO;
-import bricolage.controller.dto.OrderDTO;
-import bricolage.controller.dto.OrderItemDTO;
+import bricolage.controller.dto.*;
 import bricolage.entity.Order;
 
 import java.util.stream.Collectors;
@@ -18,6 +15,7 @@ public class OrderMapper {
         dto.setOrderDate(order.getOrderDate());
         dto.setUpdated(order.getUpdated());
         dto.setTotalPrice(order.getTotalPrice());
+        dto.setDeliveryDetails(DeliveryDetailsDTO.fromEntity(order.getDeliveryDetails()));
 
         if (order.getOrderItems() != null) {
             dto.setProducts(order.getOrderItems().stream()
@@ -45,6 +43,7 @@ public class OrderMapper {
         dto.setEmail(order.getUser().getEmail());
         dto.setName(order.getUser().getName());
         dto.setTotalPrice(order.getTotalPrice());
+        dto.setDeliveryDetails(DeliveryDetailsDTO.fromEntity(order.getDeliveryDetails()));
 
         if (order.getOrderItems() != null) {
             dto.setProducts(order.getOrderItems().stream()

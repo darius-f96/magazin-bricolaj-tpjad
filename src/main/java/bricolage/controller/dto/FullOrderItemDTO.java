@@ -14,4 +14,5 @@ public class FullOrderItemDTO {
     private String name;
     private int quantity;
     private double price;
+    DeliveryDetailsDTO deliveryDetails;
 }

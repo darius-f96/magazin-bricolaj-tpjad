@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/cart")
@@ -70,9 +71,10 @@ public class CartController {
      * Submits the authenticated user's cart, marking it as a finalized order.
      */
     @PostMapping("/submit")
-    public ResponseEntity<OrderDTO> submitCart(Authentication authentication) {
+    public ResponseEntity<OrderDTO> submitCart(Authentication authentication, @RequestBody Map<String, String> deliveryDetails) {
+        var deliveryDetailsId = deliveryDetails.get("deliveryDetailsId");
         Long userId = getUserIdFromAuthentication(authentication);
-        OrderDTO submittedOrder = OrderMapper.toOrderDTO(orderManagementService.submitOrder(userId));
+        OrderDTO submittedOrder = OrderMapper.toOrderDTO(orderManagementService.submitOrder(userId, deliveryDetailsId));
         return ResponseEntity.ok(submittedOrder);
     }
 

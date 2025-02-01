@@ -12,6 +12,7 @@ import bricolage.repository.OrderItemRepository;
 import bricolage.repository.OrderRepository;
 import bricolage.repository.ProductRepository;
 import bricolage.repository.UserRepository;
+import bricolage.service.interfaces.DeliveryDetailsService;
 import bricolage.specifications.OrderSpecification;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +33,7 @@ public class OrderManagementService {
     private final OrderItemRepository orderItemRepository;
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
+    private final DeliveryDetailsService deliveryDetailsService;
 
     /**
      * Retrieves the "cart" for the user. 
@@ -118,15 +120,17 @@ public class OrderManagementService {
      * Submits the user's order, marking it as "SUBMITTED" and preventing further changes.
      */
     @Transactional
-    public Order submitOrder(Long userId) {
+    public Order submitOrder(Long userId, String deliveryDetailsId) {
         Order cart = getCartForUser(userId);
+        Long deliveryDetailsIdLong = Long.parseLong(deliveryDetailsId);
+        var deliveryDetails = deliveryDetailsService.getDeliveryDetailsById(userId, deliveryDetailsIdLong);
 
         if (cart.getStatus() != OrderStatus.OPEN) {
             throw new IllegalStateException("Order cannot be submitted (it is not OPEN).");
         }
 
         cart.setStatus(OrderStatus.SUBMITTED);
-
+        cart.setDeliveryDetails(deliveryDetails);
         return orderRepository.save(cart);
     }
 }

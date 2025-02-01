@@ -74,4 +74,11 @@ public class DeliveryDetailsServiceImpl implements DeliveryDetailsService {
 
         return DeliveryDetailsDTO.fromEntity(updatedDetail);
     }
+
+    @Override
+    public DeliveryDetails getDeliveryDetailsById(Long userId, Long id){
+        return deliveryDetailsRepository.findById(id)
+                .filter(details -> details.getUser().getId().equals(userId))
+                .orElseThrow(() -> new IllegalArgumentException("Delivery Details not found with id: " + id + " or user is unauthorized."));
+    }
 }

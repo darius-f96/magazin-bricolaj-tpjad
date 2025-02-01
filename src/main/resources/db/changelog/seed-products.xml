@@ -1,0 +1,509 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.13.xsd">
+
+    <changeSet id="1-insert-products" author="dflorea">
+        <!-- 1. Hammer -->
+        <insert tableName="products">
+            <column name="id" value="51"/>
+            <column name="name" value="Hammer"/>
+            <column name="description" value="Durable claw hammer for carpentry"/>
+            <column name="price" value="9.99"/>
+            <column name="stock" value="50"/>
+            <column name="category" value="TOOLS"/>
+        </insert>
+
+        <!-- 2. Screwdriver Set -->
+        <insert tableName="products">
+            <column name="id" value="52"/>
+            <column name="name" value="Screwdriver Set"/>
+            <column name="description" value="Set of 6 assorted screwdrivers"/>
+            <column name="price" value="14.99"/>
+            <column name="stock" value="40"/>
+            <column name="category" value="TOOLS"/>
+        </insert>
+
+        <!-- 3. Wrench Set -->
+        <insert tableName="products">
+            <column name="id" value="53"/>
+            <column name="name" value="Wrench Set"/>
+            <column name="description" value="Metric and imperial wrenches"/>
+            <column name="price" value="19.99"/>
+            <column name="stock" value="35"/>
+            <column name="category" value="TOOLS"/>
+        </insert>
+
+        <!-- 4. Pliers -->
+        <insert tableName="products">
+            <column name="id" value="4"/>
+            <column name="name" value="Pliers"/>
+            <column name="description" value="8-inch slip joint pliers"/>
+            <column name="price" value="7.99"/>
+            <column name="stock" value="60"/>
+            <column name="category" value="TOOLS"/>
+        </insert>
+
+        <!-- 5. Utility Knife -->
+        <insert tableName="products">
+            <column name="id" value="5"/>
+            <column name="name" value="Utility Knife"/>
+            <column name="description" value="Retractable blade knife"/>
+            <column name="price" value="5.49"/>
+            <column name="stock" value="70"/>
+            <column name="category" value="TOOLS"/>
+        </insert>
+
+        <!-- 6. Tape Measure -->
+        <insert tableName="products">
+            <column name="id" value="6"/>
+            <column name="name" value="Tape Measure"/>
+            <column name="description" value="25-foot measuring tape"/>
+            <column name="price" value="8.99"/>
+            <column name="stock" value="80"/>
+            <column name="category" value="TOOLS"/>
+        </insert>
+
+        <!-- 7. Drill Bits -->
+        <insert tableName="products">
+            <column name="id" value="7"/>
+            <column name="name" value="Drill Bits Set"/>
+            <column name="description" value="Titanium-coated bits, 10-piece set"/>
+            <column name="price" value="12.49"/>
+            <column name="stock" value="40"/>
+            <column name="category" value="TOOLS"/>
+        </insert>
+
+        <!-- 8. Cordless Drill -->
+        <insert tableName="products">
+            <column name="id" value="8"/>
+            <column name="name" value="Cordless Drill"/>
+            <column name="description" value="18V cordless drill with battery pack"/>
+            <column name="price" value="59.99"/>
+            <column name="stock" value="25"/>
+            <column name="category" value="TOOLS"/>
+        </insert>
+
+        <!-- 9. Circular Saw -->
+        <insert tableName="products">
+            <column name="id" value="9"/>
+            <column name="name" value="Circular Saw"/>
+            <column name="description" value="7-1/4 inch blade, 120V power tool"/>
+            <column name="price" value="69.99"/>
+            <column name="stock" value="15"/>
+            <column name="category" value="TOOLS"/>
+        </insert>
+
+        <!-- 10. Jigsaw -->
+        <insert tableName="products">
+            <column name="id" value="10"/>
+            <column name="name" value="Jigsaw"/>
+            <column name="description" value="Variable speed jigsaw for wood and metal"/>
+            <column name="price" value="49.99"/>
+            <column name="stock" value="20"/>
+            <column name="category" value="TOOLS"/>
+        </insert>
+
+        <!-- 11. Sander -->
+        <insert tableName="products">
+            <column name="id" value="11"/>
+            <column name="name" value="Palm Sander"/>
+            <column name="description" value="Palm-grip finishing sander, 120V"/>
+            <column name="price" value="34.99"/>
+            <column name="stock" value="18"/>
+            <column name="category" value="TOOLS"/>
+        </insert>
+
+        <!-- 12. Paint Brush -->
+        <insert tableName="products">
+            <column name="id" value="12"/>
+            <column name="name" value="Paint Brush"/>
+            <column name="description" value="2-inch angled brush for trims"/>
+            <column name="price" value="3.99"/>
+            <column name="stock" value="100"/>
+            <column name="category" value="PAINT"/>
+        </insert>
+
+        <!-- 13. Paint Roller -->
+        <insert tableName="products">
+            <column name="id" value="13"/>
+            <column name="name" value="Paint Roller"/>
+            <column name="description" value="9-inch roller with handle"/>
+            <column name="price" value="5.49"/>
+            <column name="stock" value="90"/>
+            <column name="category" value="PAINT"/>
+        </insert>
+
+        <!-- 14. Paint Tray -->
+        <insert tableName="products">
+            <column name="id" value="14"/>
+            <column name="name" value="Paint Tray"/>
+            <column name="description" value="Plastic tray for paint rolling"/>
+            <column name="price" value="2.99"/>
+            <column name="stock" value="80"/>
+            <column name="category" value="PAINT"/>
+        </insert>
+
+        <!-- 15. Primer -->
+        <insert tableName="products">
+            <column name="id" value="15"/>
+            <column name="name" value="Primer"/>
+            <column name="description" value="White interior primer, 1 gallon"/>
+            <column name="price" value="22.99"/>
+            <column name="stock" value="30"/>
+            <column name="category" value="PAINT"/>
+        </insert>
+
+        <!-- 16. Acrylic Paint -->
+        <insert tableName="products">
+            <column name="id" value="16"/>
+            <column name="name" value="Acrylic Paint"/>
+            <column name="description" value="Interior acrylic paint, 1 gallon, eggshell"/>
+            <column name="price" value="26.99"/>
+            <column name="stock" value="25"/>
+            <column name="category" value="PAINT"/>
+        </insert>
+
+        <!-- 17. Enamel Paint -->
+        <insert tableName="products">
+            <column name="id" value="17"/>
+            <column name="name" value="Enamel Paint"/>
+            <column name="description" value="High-gloss enamel, 1 quart"/>
+            <column name="price" value="12.99"/>
+            <column name="stock" value="40"/>
+            <column name="category" value="PAINT"/>
+        </insert>
+
+        <!-- 18. Paint Thinner -->
+        <insert tableName="products">
+            <column name="id" value="18"/>
+            <column name="name" value="Paint Thinner"/>
+            <column name="description" value="1 liter paint thinner for cleaning brushes"/>
+            <column name="price" value="6.49"/>
+            <column name="stock" value="50"/>
+            <column name="category" value="PAINT"/>
+        </insert>
+
+        <!-- 19. Electrical Tape -->
+        <insert tableName="products">
+            <column name="id" value="19"/>
+            <column name="name" value="Electrical Tape"/>
+            <column name="description" value="Black 3/4 inch x 66 ft roll"/>
+            <column name="price" value="2.49"/>
+            <column name="stock" value="100"/>
+            <column name="category" value="ELECTRICAL"/>
+        </insert>
+
+        <!-- 20. Extension Cord -->
+        <insert tableName="products">
+            <column name="id" value="20"/>
+            <column name="name" value="Extension Cord"/>
+            <column name="description" value="25-foot heavy-duty outdoor cord"/>
+            <column name="price" value="14.99"/>
+            <column name="stock" value="40"/>
+            <column name="category" value="ELECTRICAL"/>
+        </insert>
+
+        <!-- 21. Light Bulbs -->
+        <insert tableName="products">
+            <column name="id" value="21"/>
+            <column name="name" value="Light Bulbs"/>
+            <column name="description" value="Pack of 4 LED bulbs"/>
+            <column name="price" value="9.99"/>
+            <column name="stock" value="60"/>
+            <column name="category" value="ELECTRICAL"/>
+        </insert>
+
+        <!-- 22. Switches -->
+        <insert tableName="products">
+            <column name="id" value="22"/>
+            <column name="name" value="Light Switches"/>
+            <column name="description" value="Pack of 5 standard switches"/>
+            <column name="price" value="6.99"/>
+            <column name="stock" value="50"/>
+            <column name="category" value="ELECTRICAL"/>
+        </insert>
+
+        <!-- 23. Electrical Wire Spool -->
+        <insert tableName="products">
+            <column name="id" value="23"/>
+            <column name="name" value="Electrical Wire Spool"/>
+            <column name="description" value="100 ft 14-gauge indoor wire"/>
+            <column name="price" value="24.99"/>
+            <column name="stock" value="20"/>
+            <column name="category" value="ELECTRICAL"/>
+        </insert>
+
+        <!-- 24. PVC Pipe -->
+        <insert tableName="products">
+            <column name="id" value="24"/>
+            <column name="name" value="PVC Pipe"/>
+            <column name="description" value="1-inch diameter, 10 ft length"/>
+            <column name="price" value="4.99"/>
+            <column name="stock" value="50"/>
+            <column name="category" value="PLUMBING"/>
+        </insert>
+
+        <!-- 25. Pipe Wrench -->
+        <insert tableName="products">
+            <column name="id" value="25"/>
+            <column name="name" value="Pipe Wrench"/>
+            <column name="description" value="14-inch steel pipe wrench"/>
+            <column name="price" value="17.49"/>
+            <column name="stock" value="30"/>
+            <column name="category" value="PLUMBING"/>
+        </insert>
+
+        <!-- 26. Water Faucet -->
+        <insert tableName="products">
+            <column name="id" value="26"/>
+            <column name="name" value="Water Faucet"/>
+            <column name="description" value="Chrome-plated kitchen faucet"/>
+            <column name="price" value="29.99"/>
+            <column name="stock" value="25"/>
+            <column name="category" value="PLUMBING"/>
+        </insert>
+
+        <!-- 27. Sink Drain Kit -->
+        <insert tableName="products">
+            <column name="id" value="27"/>
+            <column name="name" value="Sink Drain Kit"/>
+            <column name="description" value="Complete drain assembly for kitchen sink"/>
+            <column name="price" value="12.99"/>
+            <column name="stock" value="35"/>
+            <column name="category" value="PLUMBING"/>
+        </insert>
+
+        <!-- 28. Garden Hose -->
+        <insert tableName="products">
+            <column name="id" value="28"/>
+            <column name="name" value="Garden Hose"/>
+            <column name="description" value="50 ft reinforced garden hose"/>
+            <column name="price" value="19.99"/>
+            <column name="stock" value="40"/>
+            <column name="category" value="GARDENING"/>
+        </insert>
+
+        <!-- 29. Garden Rake -->
+        <insert tableName="products">
+            <column name="id" value="29"/>
+            <column name="name" value="Garden Rake"/>
+            <column name="description" value="Metal rake for leaves and debris"/>
+            <column name="price" value="12.49"/>
+            <column name="stock" value="20"/>
+            <column name="category" value="GARDENING"/>
+        </insert>
+
+        <!-- 30. Shovel -->
+        <insert tableName="products">
+            <column name="id" value="30"/>
+            <column name="name" value="Shovel"/>
+            <column name="description" value="Digging shovel with wooden handle"/>
+            <column name="price" value="14.99"/>
+            <column name="stock" value="25"/>
+            <column name="category" value="GARDENING"/>
+        </insert>
+
+        <!-- 31. Grass Seeds -->
+        <insert tableName="products">
+            <column name="id" value="31"/>
+            <column name="name" value="Grass Seeds"/>
+            <column name="description" value="All-purpose lawn seeds, 5 lb bag"/>
+            <column name="price" value="16.99"/>
+            <column name="stock" value="50"/>
+            <column name="category" value="GARDENING"/>
+        </insert>
+
+        <!-- 32. Hedge Trimmer -->
+        <insert tableName="products">
+            <column name="id" value="32"/>
+            <column name="name" value="Hedge Trimmer"/>
+            <column name="description" value="Electric hedge trimmer, 18-inch blade"/>
+            <column name="price" value="39.99"/>
+            <column name="stock" value="15"/>
+            <column name="category" value="GARDENING"/>
+        </insert>
+
+        <!-- 33. Leaf Blower -->
+        <insert tableName="products">
+            <column name="id" value="33"/>
+            <column name="name" value="Leaf Blower"/>
+            <column name="description" value="Cordless leaf blower with battery"/>
+            <column name="price" value="49.99"/>
+            <column name="stock" value="10"/>
+            <column name="category" value="GARDENING"/>
+        </insert>
+
+        <!-- 34. Screws (Pack) -->
+        <insert tableName="products">
+            <column name="id" value="34"/>
+            <column name="name" value="Screws (Pack)"/>
+            <column name="description" value="Box of 100 wood screws"/>
+            <column name="price" value="5.99"/>
+            <column name="stock" value="80"/>
+            <column name="category" value="HARDWARE"/>
+        </insert>
+
+        <!-- 35. Nails (Pack) -->
+        <insert tableName="products">
+            <column name="id" value="35"/>
+            <column name="name" value="Nails (Pack)"/>
+            <column name="description" value="Box of 200 common nails"/>
+            <column name="price" value="4.99"/>
+            <column name="stock" value="90"/>
+            <column name="category" value="HARDWARE"/>
+        </insert>
+
+        <!-- 36. Bolts (Assorted) -->
+        <insert tableName="products">
+            <column name="id" value="36"/>
+            <column name="name" value="Bolts (Assorted)"/>
+            <column name="description" value="Pack of assorted hex bolts and nuts"/>
+            <column name="price" value="9.49"/>
+            <column name="stock" value="60"/>
+            <column name="category" value="HARDWARE"/>
+        </insert>
+
+        <!-- 37. Door Hinges (Set) -->
+        <insert tableName="products">
+            <column name="id" value="37"/>
+            <column name="name" value="Door Hinges (Set)"/>
+            <column name="description" value="Set of 3 steel door hinges"/>
+            <column name="price" value="6.99"/>
+            <column name="stock" value="40"/>
+            <column name="category" value="HARDWARE"/>
+        </insert>
+
+        <!-- 38. Padlock -->
+        <insert tableName="products">
+            <column name="id" value="38"/>
+            <column name="name" value="Padlock"/>
+            <column name="description" value="Keyed padlock with hardened shackle"/>
+            <column name="price" value="7.99"/>
+            <column name="stock" value="50"/>
+            <column name="category" value="HARDWARE"/>
+        </insert>
+
+        <!-- 39. Shelf Brackets -->
+        <insert tableName="products">
+            <column name="id" value="39"/>
+            <column name="name" value="Shelf Brackets"/>
+            <column name="description" value="Pair of metal shelf brackets"/>
+            <column name="price" value="5.49"/>
+            <column name="stock" value="35"/>
+            <column name="category" value="HARDWARE"/>
+        </insert>
+
+        <!-- 40. PVC Glue -->
+        <insert tableName="products">
+            <column name="id" value="40"/>
+            <column name="name" value="PVC Glue"/>
+            <column name="description" value="Solvent cement for PVC fittings"/>
+            <column name="price" value="4.49"/>
+            <column name="stock" value="30"/>
+            <column name="category" value="HARDWARE"/>
+        </insert>
+
+        <!-- 41. Teflon Tape -->
+        <insert tableName="products">
+            <column name="id" value="41"/>
+            <column name="name" value="Teflon Tape"/>
+            <column name="description" value="1/2 inch x 520 inch PTFE tape"/>
+            <column name="price" value="1.99"/>
+            <column name="stock" value="100"/>
+            <column name="category" value="HARDWARE"/>
+        </insert>
+
+        <!-- 42. Wire Cutters -->
+        <insert tableName="products">
+            <column name="id" value="42"/>
+            <column name="name" value="Wire Cutters"/>
+            <column name="description" value="7-inch diagonal cutting pliers"/>
+            <column name="price" value="8.49"/>
+            <column name="stock" value="45"/>
+            <column name="category" value="TOOLS"/>
+        </insert>
+
+        <!-- 43. Hose Clamp -->
+        <insert tableName="products">
+            <column name="id" value="43"/>
+            <column name="name" value="Hose Clamp"/>
+            <column name="description" value="Pack of 4 stainless steel clamps"/>
+            <column name="price" value="3.49"/>
+            <column name="stock" value="60"/>
+            <column name="category" value="HARDWARE"/>
+        </insert>
+
+        <!-- 44. Paint Sprayer -->
+        <insert tableName="products">
+            <column name="id" value="44"/>
+            <column name="name" value="Paint Sprayer"/>
+            <column name="description" value="HVLP paint sprayer for DIY projects"/>
+            <column name="price" value="59.99"/>
+            <column name="stock" value="12"/>
+            <column name="category" value="PAINT"/>
+        </insert>
+
+        <!-- 45. Hand Saw -->
+        <insert tableName="products">
+            <column name="id" value="45"/>
+            <column name="name" value="Hand Saw"/>
+            <column name="description" value="15-inch wood cutting saw"/>
+            <column name="price" value="11.99"/>
+            <column name="stock" value="25"/>
+            <column name="category" value="TOOLS"/>
+        </insert>
+
+        <!-- 46. Adjustable Wrench -->
+        <insert tableName="products">
+            <column name="id" value="46"/>
+            <column name="name" value="Adjustable Wrench"/>
+            <column name="description" value="10-inch adjustable spanner"/>
+            <column name="price" value="9.99"/>
+            <column name="stock" value="35"/>
+            <column name="category" value="TOOLS"/>
+        </insert>
+
+        <!-- 47. Cement Mix -->
+        <insert tableName="products">
+            <column name="id" value="47"/>
+            <column name="name" value="Cement Mix"/>
+            <column name="description" value="80 lb bag of pre-mixed concrete"/>
+            <column name="price" value="4.99"/>
+            <column name="stock" value="40"/>
+            <column name="category" value="HARDWARE"/>
+        </insert>
+
+        <!-- 48. Tile Adhesive -->
+        <insert tableName="products">
+            <column name="id" value="48"/>
+            <column name="name" value="Tile Adhesive"/>
+            <column name="description" value="Ceramic tile adhesive, 1 gallon"/>
+            <column name="price" value="15.99"/>
+            <column name="stock" value="18"/>
+            <column name="category" value="HARDWARE"/>
+        </insert>
+
+        <!-- 49. Plunger -->
+        <insert tableName="products">
+            <column name="id" value="49"/>
+            <column name="name" value="Plunger"/>
+            <column name="description" value="Rubber plunger for clogs"/>
+            <column name="price" value="6.99"/>
+            <column name="stock" value="25"/>
+            <column name="category" value="TOOLS"/>
+        </insert>
+
+        <!-- 50. Caulking Gun -->
+        <insert tableName="products">
+            <column name="id" value="50"/>
+            <column name="name" value="Caulking Gun"/>
+            <column name="description" value="Standard cartridge caulking gun"/>
+            <column name="price" value="8.99"/>
+            <column name="stock" value="30"/>
+            <column name="category" value="TOOLS"/>
+        </insert>
+
+    </changeSet>
+</databaseChangeLog>

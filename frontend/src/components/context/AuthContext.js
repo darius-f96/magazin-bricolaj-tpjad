@@ -14,7 +14,7 @@ export const AuthProvider = ({children}) => {
 
 
     const BASE_URL = "http://localhost:8080/api";
-    const REFRESH_ENDPOINT = `${BASE_URL}/refresh`;
+    const REFRESH_ENDPOINT = `${BASE_URL}/auth/refresh`;
     const LOGIN_PAGE = "/login";
 
     const saveTokens = (newAccessToken, newRefreshToken = null) => {

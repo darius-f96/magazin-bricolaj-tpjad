@@ -13,7 +13,7 @@ import MyProfilePage from "./components/pages/MyProfilePage";
 
 const App = () => {
     return (<div>
-            <ToastContainer/>,
+            <ToastContainer/>
             <AuthProvider>
                 <Routes>
                     <Route path="/login" element={<Login/>}/>

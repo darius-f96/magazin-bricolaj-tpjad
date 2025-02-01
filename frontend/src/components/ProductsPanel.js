@@ -1,8 +1,11 @@
-import React, { useEffect, useState, useCallback } from "react";
-import { Box, Button, Card, CardActions, CardContent, Typography, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem } from "@mui/material";
-import Category from "../enums/Category";
+import { useState, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+    Box, Typography, Button, Card, CardContent, CardActions,
+    Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem, Pagination
+} from "@mui/material";
 import {useSpringBootRequest} from "../utils/apiUtils";
-import {useNavigate} from "react-router-dom";
+import Category from "../enums/Category";
 
 const ProductsPanel = () => {
     const [products, setProducts] = useState([]);
@@ -14,6 +17,9 @@ const ProductsPanel = () => {
         category: Category.TOOLS,
         stock: 0,
     });
+    const [currentPage, setCurrentPage] = useState(1);
+    const productsPerPage = 4;
+
     const SpringBootDataRequest = useSpringBootRequest();
     const navigate = useNavigate();
 
@@ -21,8 +27,6 @@ const ProductsPanel = () => {
         const data = await SpringBootDataRequest("/products", "GET", null, navigate);
         setProducts(data || []);
     }, [navigate]);
-
-
 
     useEffect(() => {
         fetchProducts();
@@ -46,6 +50,10 @@ const ProductsPanel = () => {
         fetchProducts();
     };
 
+    const indexOfLastProduct = currentPage * productsPerPage;
+    const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+    const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
+
     return (
         <Box>
             <Typography variant="h5" mb={2}>
@@ -55,7 +63,7 @@ const ProductsPanel = () => {
                 Add Product
             </Button>
             <Box mt={2}>
-                {products.map((product) => (
+                {currentProducts.map((product) => (
                     <Card key={product.id} sx={{ marginBottom: 2 }}>
                         <CardContent>
                             <Typography variant="h6">{product.name}</Typography>
@@ -75,6 +83,16 @@ const ProductsPanel = () => {
                         </CardActions>
                     </Card>
                 ))}
+            </Box>
+
+            {/* Paginare */}
+            <Box display="flex" justifyContent="center" mt={3}>
+                <Pagination
+                    count={Math.ceil(products.length / productsPerPage)}
+                    page={currentPage}
+                    onChange={(event, value) => setCurrentPage(value)}
+                    color="primary"
+                />
             </Box>
 
             {/* Add Product Dialog */}

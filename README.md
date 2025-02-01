@@ -166,6 +166,9 @@ The frontend is developed in **React** using **Material-UI** for a sleek user in
 
 The application is containerized and deployed using **Docker**.
 
+Below is a high level architecture diagram:
+![alt-text](https://github.com/darius-f96/magazin-bricolaj-tpjad/blob/main/documentation/high_level_arch.png)
+
 ### Services:
 
 1. **PostgreSQL:**

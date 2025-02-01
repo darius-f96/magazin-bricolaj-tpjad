@@ -19,6 +19,9 @@ const OrdersPanel = () => {
     const [orders, setOrders] = useState([]);
     const [editingProductId, setEditingProductId] = useState(null); // Track which product quantity is being edited
     const [editedQuantity, setEditedQuantity] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
+    const ordersPerPage = 8;
+
     const navigate = useNavigate();
     const SpringBootDataRequest = useSpringBootRequest();
 
@@ -62,13 +65,32 @@ const OrdersPanel = () => {
         fetchOrders();
     };
 
+    // Logica pentru paginare pe client
+    const indexOfLastOrder = currentPage * ordersPerPage;
+    const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
+    const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
+
+    const totalPages = Math.ceil(orders.length / ordersPerPage);
+
+    const handleNextPage = () => {
+        if (currentPage < totalPages) {
+            setCurrentPage((prevPage) => prevPage + 1);
+        }
+    };
+
+    const handlePreviousPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage((prevPage) => prevPage - 1);
+        }
+    };
+
     return (
         <Box>
             <Typography variant="h5" mb={2}>
                 Orders
             </Typography>
             <Box>
-                {orders.map((order) => (
+                {currentOrders.map((order) => (
                     <Accordion key={order.id} sx={{marginBottom: 2}}>
                         <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
                             <Typography>
@@ -203,6 +225,29 @@ const OrdersPanel = () => {
                         </AccordionDetails>
                     </Accordion>
                 ))}
+            </Box>
+
+            {/* Paginare */}
+            <Box display="flex" justifyContent="center" mt={3}>
+                <Button
+                    variant="contained"
+                    onClick={handlePreviousPage}
+                    disabled={currentPage === 1}
+                    sx={{ marginRight: 2 }}
+                >
+                    Previous
+                </Button>
+                <Typography variant="body1" sx={{ alignSelf: 'center' }}>
+                    Page {currentPage} of {totalPages}
+                </Typography>
+                <Button
+                    variant="contained"
+                    onClick={handleNextPage}
+                    disabled={currentPage === totalPages}
+                    sx={{ marginLeft: 2 }}
+                >
+                    Next
+                </Button>
             </Box>
         </Box>
     );

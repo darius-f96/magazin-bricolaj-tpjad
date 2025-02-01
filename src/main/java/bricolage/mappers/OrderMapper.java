@@ -15,7 +15,10 @@ public class OrderMapper {
         dto.setOrderDate(order.getOrderDate());
         dto.setUpdated(order.getUpdated());
         dto.setTotalPrice(order.getTotalPrice());
-        dto.setDeliveryDetails(DeliveryDetailsDTO.fromEntity(order.getDeliveryDetails()));
+        var deliveryDetails = order.getDeliveryDetails();
+        if (deliveryDetails != null) {
+            dto.setDeliveryDetails(DeliveryDetailsDTO.fromEntity(deliveryDetails));
+        }
 
         if (order.getOrderItems() != null) {
             dto.setProducts(order.getOrderItems().stream()
@@ -43,7 +46,10 @@ public class OrderMapper {
         dto.setEmail(order.getUser().getEmail());
         dto.setName(order.getUser().getName());
         dto.setTotalPrice(order.getTotalPrice());
-        dto.setDeliveryDetails(DeliveryDetailsDTO.fromEntity(order.getDeliveryDetails()));
+        var deliveryDetails = order.getDeliveryDetails();
+        if (deliveryDetails != null) {
+            dto.setDeliveryDetails(DeliveryDetailsDTO.fromEntity(deliveryDetails));
+        }
 
         if (order.getOrderItems() != null) {
             dto.setProducts(order.getOrderItems().stream()

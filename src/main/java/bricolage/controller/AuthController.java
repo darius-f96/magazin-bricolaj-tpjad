@@ -54,7 +54,7 @@ public class AuthController {
         String refreshToken = refreshRequest.get("refreshToken");
 
         String username = jwtUtil.extractUsername(refreshToken);
-        if (username != null && jwtUtil.isTokenExpired(refreshToken)) {
+        if (username != null && !jwtUtil.isTokenExpired(refreshToken)) {
             User user = userRepository.findByUsername(username);
             if (user == null) {
                 return ResponseEntity.status(401).body("User not found");

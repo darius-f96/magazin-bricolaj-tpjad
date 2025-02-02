@@ -1,15 +1,21 @@
 package bricolage.service;
 
+import bricolage.controller.dto.FullOrderDTO;
 import bricolage.entity.Order;
 import bricolage.entity.OrderItem;
 import bricolage.entity.Product;
 import bricolage.enums.OrderStatus;
+import bricolage.mappers.OrderMapper;
+import bricolage.mappers.UtilMapper;
 import bricolage.repository.OrderRepository;
 import bricolage.repository.ProductRepository;
 import bricolage.service.interfaces.OrderService;
+import bricolage.specifications.OrderSpecification;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,8 +34,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order getOrderById(Long id) {
-        return orderRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Order not found with id: " + id));
+        return orderRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Order not found with id: " + id));
     }
 
     @Override
@@ -52,10 +57,7 @@ public class OrderServiceImpl implements OrderService {
         Order order = getOrderById(orderId);
         List<OrderItem> items = order.getOrderItems();
 
-        OrderItem itemToRemove = items.stream()
-                .filter(item -> item.getProduct().getId().equals(productId))
-                .findFirst()
-                .orElseThrow(() -> new EntityNotFoundException("Product not found in this order"));
+        OrderItem itemToRemove = items.stream().filter(item -> item.getProduct().getId().equals(productId)).findFirst().orElseThrow(() -> new EntityNotFoundException("Product not found in this order"));
 
         items.remove(itemToRemove);
         order.setOrderItems(items);
@@ -69,10 +71,7 @@ public class OrderServiceImpl implements OrderService {
         Order order = getOrderById(orderId);
         List<OrderItem> items = order.getOrderItems();
 
-        OrderItem itemToUpdate = items.stream()
-                .filter(item -> item.getProduct().getId().equals(productId))
-                .findFirst()
-                .orElseThrow(() -> new EntityNotFoundException("Product not found in this order"));
+        OrderItem itemToUpdate = items.stream().filter(item -> item.getProduct().getId().equals(productId)).findFirst().orElseThrow(() -> new EntityNotFoundException("Product not found in this order"));
 
         if (newQuantity <= 0) {
             items.remove(itemToUpdate);
@@ -105,14 +104,18 @@ public class OrderServiceImpl implements OrderService {
         orderRepository.save(order);
     }
 
+    @Override
+    public Page<FullOrderDTO> searchOrders(Pageable pageable, String productName, String startDate, String endDate, String minPrice, String maxPrice) {
+        return orderRepository.findAll(OrderSpecification.createAdminOrderSpecification(productName, UtilMapper.parseDate(startDate), UtilMapper.parseDate(endDate), UtilMapper.parseBigDecimal(minPrice), UtilMapper.parseBigDecimal(maxPrice)), pageable).map(OrderMapper::toFullOrderDTO);
+    }
+
     private void confirmOrder(Order order) {
         if (order.getStatus() != OrderStatus.SUBMITTED)
             throw new IllegalStateException("Order must be SUBMITTED before it can be confirmed");
         for (OrderItem item : order.getOrderItems()) {
             Product product = item.getProduct();
             if (product.getStock() < item.getQuantity()) {
-                throw new IllegalStateException(
-                        "Insufficient stock for product: " + product.getName());
+                throw new IllegalStateException("Insufficient stock for product: " + product.getName());
             }
         }
 
@@ -127,8 +130,7 @@ public class OrderServiceImpl implements OrderService {
 
     private void markOrderAsDelivered(Order order) {
         if (order.getStatus() != OrderStatus.CONFIRMED) {
-            throw new IllegalStateException(
-                    "Order must be CONFIRMED before it can be marked as DELIVERED");
+            throw new IllegalStateException("Order must be CONFIRMED before it can be marked as DELIVERED");
         }
         order.setStatus(OrderStatus.DELIVERED);
     }

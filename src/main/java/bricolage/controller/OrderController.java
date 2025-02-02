@@ -2,10 +2,14 @@ package bricolage.controller;
 
 import bricolage.controller.dto.FullOrderDTO;
 import bricolage.entity.Order;
+import bricolage.entity.Product;
 import bricolage.enums.OrderStatus;
+import bricolage.enums.ProductCategory;
 import bricolage.mappers.OrderMapper;
 import bricolage.service.interfaces.OrderService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -38,6 +42,7 @@ public class OrderController {
         orderService.updateProductQuantity(orderId, productId, quantity);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
     @PutMapping("/{orderId}/status")
     public ResponseEntity<Void> changeOrderStatus(@PathVariable Long orderId,
                                                   @RequestParam OrderStatus newStatus) {
@@ -61,6 +66,16 @@ public class OrderController {
     public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
         orderService.deleteOrder(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/search")
+    public Page<FullOrderDTO> searchOrders(Pageable pageable,
+                                           @RequestParam(required = false) String productName,
+                                           @RequestParam(required = false) String startDate,
+                                           @RequestParam(required = false) String endDate,
+                                           @RequestParam(required = false) String minPrice,
+                                           @RequestParam(required = false) String maxPrice) {
+        return orderService.searchOrders(pageable, productName, startDate, endDate, minPrice, maxPrice);
     }
 }
 

@@ -65,7 +65,7 @@ const OrdersPanel = () => {
 
     useEffect(() => {
         fetchOrders();
-    }, [fetchOrders]);
+    }, [searchParams]);
 
     // Handle deleting an order
     const handleDeleteOrder = async (orderId) => {

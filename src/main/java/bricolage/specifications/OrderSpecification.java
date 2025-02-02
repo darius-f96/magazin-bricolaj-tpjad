@@ -1,5 +1,6 @@
 package bricolage.specifications;
 
+import bricolage.entity.Order;
 import bricolage.entity.User;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
@@ -10,10 +11,13 @@ import java.time.LocalDateTime;
 
 public class OrderSpecification {
 
-    public static Specification<bricolage.entity.Order> filterByProductName(String name) {
+    public static Specification<Order> filterByProductName(String name) {
         return (root, query, criteriaBuilder) -> {
+            query.distinct(true);
+
             var orderItemJoin = root.join("orderItems", JoinType.INNER);
             var productJoin = orderItemJoin.join("product", JoinType.INNER);
+
             return criteriaBuilder.like(
                     criteriaBuilder.lower(productJoin.get("name")),
                     "%" + name.toLowerCase() + "%"
@@ -35,6 +39,7 @@ public class OrderSpecification {
 
     public static Specification<bricolage.entity.Order> hasUserId(Long userId) {
         return (root, query, criteriaBuilder) -> {
+            query.distinct(true);
             Join<jakarta.persistence.criteria.Order, User> userJoin = root.join("user");
 
             return criteriaBuilder.equal(userJoin.get("id"), userId);
